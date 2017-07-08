@@ -11,8 +11,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -37,14 +39,29 @@ public class MainActivity extends AppCompatActivity implements android.app.Loade
     // The edit text for the user to enter a search term and find any books matching that term.
     // And the button for completing the search.
     @BindView(R.id.book_list_search_box) EditText bookSearchEditText;
-    @BindView(R.id.search_button) ImageButton searchButton;
+    @BindView(R.id.search_button) ImageView searchButton;
 
     // The RecyclerView which displays the list of book items.
     @BindView(R.id.book_list) RecyclerView bookListView;
 
-    // The custom adapter for displaying list of book items.
-    private BookAdapter adapter;
+    // The Spinner which displays the options for the number of search results
+    @BindView(R.id.num_results) Spinner numResultsSpinner;
 
+    // The custom adapter for displaying list of book items.
+    private BookAdapter bookAdapter;
+
+    // The custom spinner adapter.
+    private NumResultsAdapter numResultsAdapter;
+
+    // The list of integers initialised to populate the spinner.
+    private List<Integer> numResultsOptions = new ArrayList<Integer>(){{
+        add(10);
+        add(25);
+        add(50);
+        add(100);
+    }};
+
+    private int numResultsChoice = MAX_RESULTS_DEFAULT;
     private String searchTerm;
 
     private List<Book> bookList = new ArrayList<>();
@@ -56,14 +73,33 @@ public class MainActivity extends AppCompatActivity implements android.app.Loade
 
         ButterKnife.bind(this);
 
-        adapter = new BookAdapter(this, bookList);
+        Log.d("numOptions", numResultsOptions.toString());
+        // Create adapter and set the adapter to the spinner. Also set an OnItemSelectedListener to
+        // store the user choice.
+        numResultsAdapter = new NumResultsAdapter(this, numResultsOptions);
+        numResultsSpinner.setAdapter(numResultsAdapter);
 
+        numResultsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                numResultsChoice = (int)parent.getSelectedItem();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                numResultsChoice = MAX_RESULTS_DEFAULT;
+            }
+        });
+
+
+        // For the {@link RecyclerView}, set the {@link BookAdapter} and use a LinearLayoutManager
+        // to set it to vertical.
+        bookAdapter = new BookAdapter(this, bookList);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         bookListView.setLayoutManager(layoutManager);
-        bookListView.setAdapter(adapter);
+        bookListView.setAdapter(bookAdapter);
 
-        //searchTerm = bookSearchEditText.getText().toString();
-        searchTerm = "Far";
+        // Get the search term
+        searchTerm = bookSearchEditText.getText().toString();
 
         // Check network connectivity
         ConnectivityManager connectivityManager = (ConnectivityManager)
@@ -83,7 +119,12 @@ public class MainActivity extends AppCompatActivity implements android.app.Loade
 
     @Override
     public void onClick(View view){
-
+        switch (view.getId()){
+            case R.id.search_button:
+                searchTerm = bookSearchEditText.getText().toString();
+                prepareRequestUrl();
+                break;
+        }
     }
 
     /**
@@ -94,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements android.app.Loade
 
         String httpRequestUrl = BOOK_REQUEST_URL;
         httpRequestUrl += searchTerm;
-        httpRequestUrl += "&maxResults=" + MAX_RESULTS_DEFAULT;
+        httpRequestUrl += "&maxResults=" + numResultsChoice;
         Log.d(LOG_TAG, httpRequestUrl);
 
         return(httpRequestUrl);
@@ -111,15 +152,15 @@ public class MainActivity extends AppCompatActivity implements android.app.Loade
     public void onLoadFinished(Loader<List<Book>> loader, List<Book> bookList) {
 
 
-        // filling adapter
+        // filling bookAdapter
         if (bookList != null && !bookList.isEmpty()) {
-            adapter.reloadList(bookList);
+            bookAdapter.reloadList(bookList);
         }
     }
 
     @Override
     public void onLoaderReset(Loader<List<Book>> loader) {
-        adapter.clear();
+        bookAdapter.clear();
     }
 
 }

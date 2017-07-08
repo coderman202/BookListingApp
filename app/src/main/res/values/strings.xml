@@ -1,4 +1,4 @@
-<resources  xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">Book Listing App</string>
 
     <!--Edit text hint-->
@@ -17,7 +17,7 @@
 
     <!--STRINGS FOR DEALING WITH EXCEPTIONS -->
     <string name="url_exception">Problem with the request URL</string>
-    <string name="response_code_exception">
+    <string name="response_code_exception" tools:ignore="PluralsCandidate">
         Error: <xliff:g name="response_code">%d</xliff:g> response code received
     </string>
     <string name="json_exception">Problem retrieving JSON correctly</string>

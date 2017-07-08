@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,26 +10,33 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:weightSum="4">
 
         <EditText
             android:id="@+id/book_list_search_box"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="3"
+            android:layout_weight="2.6"
             android:inputType="text"
             android:maxLines="1"
             android:drawableEnd="@drawable/search"
             android:labelFor="@+id/book_list"
             android:hint="@string/edit_text_hint"/>
 
-        <ImageButton
+        <Spinner
+            android:id="@+id/num_results"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.70"/>
+
+        <ImageView
             android:id="@+id/search_button"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:layout_weight="0.70"
             android:contentDescription="@string/search_button"
-            android:src="@drawable/search"/>
+            android:src="@drawable/enter"/>
 
     </LinearLayout>
 

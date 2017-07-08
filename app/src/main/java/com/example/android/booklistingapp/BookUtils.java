@@ -56,15 +56,19 @@ public final class BookUtils {
     private static final String API_KEY_IMAGE_LINKS = "imageLinks";
     private static final String API_KEY_THUMBNAIL = "smallThumbnail";
 
+    private BookUtils(){
+
+    }
+
 
     /**
      * Make a URL request to return a {@link List<Book>}
-     * @param   context
-     * @param   requestUrlString
-     * @return  A list of books.
+     * @param   context             context
+     * @param   requestUrlString    A request url in String form
+     * @return                      A list of books.
      */
     public static List<Book> getBookData(Context context, String requestUrlString){
-        context = context;
+        BookUtils.context = context;
         requestUrl = createUrl(requestUrlString);
 
         String jsonResponse = null;
@@ -118,8 +122,8 @@ public final class BookUtils {
         InputStream inputStream = null;
         try {
             urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setReadTimeout(TIMEOUT /* milliseconds */);
-            urlConnection.setConnectTimeout(CONNECT_TIMEOUT /* milliseconds */);
+            urlConnection.setReadTimeout(TIMEOUT);
+            urlConnection.setConnectTimeout(CONNECT_TIMEOUT);
             urlConnection.setRequestMethod(REQUEST_METHOD);
             urlConnection.connect();
 
@@ -129,8 +133,8 @@ public final class BookUtils {
                 inputStream = urlConnection.getInputStream();
                 jsonResponse = readFromStream(inputStream);
             } else {
-                /*Log.e(LOG_TAG, context.getString(R.string.response_code_exception,
-                        urlConnection.getResponseCode()));*/
+                Log.e(LOG_TAG, context.getString(R.string.response_code_exception,
+                        urlConnection.getResponseCode()));
             }
         } catch (IOException e) {
             Log.e(LOG_TAG, context.getString(R.string.json_exception), e);
