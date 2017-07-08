@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="?android:attr/listPreferredItemHeight"
+    android:layout_margin="@dimen/list_item_margins"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/book_thumbnail"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        tools:src="@drawable/placeholder"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintVertical_chainStyle="spread_inside"
+        tools:layout_editor_absoluteX="0dp"/>
+
+    <TextView
+        style="@style/BookTitleStyle"
+        android:id="@+id/book_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        tools:text="@string/placeholder_title"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/book_thumbnail"
+        tools:layout_editor_absoluteX="0dp"/>
+
+    <TextView
+        style="@style/BookAuthorStyle"
+        android:id="@+id/book_author"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        tools:text="@string/placeholder_author"
+        app:layout_constraintStart_toEndOf="@id/book_thumbnail"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="0dp"/>
+
+    <TextView
+        style="@style/RatingYearStyle"
+        android:id="@+id/book_rating"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        tools:text="@string/placeholder_rating"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:layout_editor_absoluteX="339dp"/>
+
+    <TextView
+        style="@style/RatingYearStyle"
+        android:id="@+id/book_year"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        tools:text="@string/placeholder_year"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="352dp"/>
+
+</android.support.constraint.ConstraintLayout>

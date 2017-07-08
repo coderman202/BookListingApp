@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--MARGIN AND PADDING FOR THE LIST ITEM AND CHILD VIEWS-->
+    <dimen name="list_item_margins">16dp</dimen>
+    <dimen name="list_item_view_padding">5dp</dimen>
+
+    <!--TEXT SIZES FOR THE LIST ITEM VIEWS-->
+    <dimen name="book_title_text_size">22sp</dimen>
+    <dimen name="book_author_text_size">16sp</dimen>
+    <dimen name="book_rating_text_size">14sp</dimen>
+    <dimen name="book_year_text_size">14sp</dimen>
+</resources>

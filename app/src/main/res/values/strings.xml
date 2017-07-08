@@ -1,0 +1,35 @@
+<resources  xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_name">Book Listing App</string>
+
+    <!--Edit text hint-->
+    <string name="edit_text_hint">Enter your search term here:</string>
+
+    <!--PLACEHOLDER STRINGS-->
+    <string name="placeholder_author">John Doe</string>
+    <string name="placeholder_title">The Best Book in the World</string>
+    <string name="placeholder_rating">3.7(19)</string>
+    <string name="placeholder_year">2009</string>
+
+    <!--CONTENT DESCRIPTION STRINGS-->
+    <!--The cover of the book-->
+    <string name="book_cover">A thumbnail of the <xliff:g name="cover">%s</xliff:g></string>
+    <string name="search_button">A button to press once a search term is entered</string>
+
+    <!--STRINGS FOR DEALING WITH EXCEPTIONS -->
+    <string name="url_exception">Problem with the request URL</string>
+    <string name="response_code_exception">
+        Error: <xliff:g name="response_code">%d</xliff:g> response code received
+    </string>
+    <string name="json_exception">Problem retrieving JSON correctly</string>
+    <string name="parse_exception">Invalid date or problem with date formatting</string>
+    <string name="http_request_exception">HTTP request error</string>
+    <string name="no_network_connection">
+        Error. No network connection or unable to connect to network.
+    </string>
+    <string name="null_pointer_exception">Error. No response code found.</string>
+
+    <!--STRINGS FOR DEALING WITH NO RESULTS, SUCH AS NO AUTHOR OR NO TITLE-->
+    <string name="unknown_author">Unknown Author</string>
+    <string name="unknown_title">Unknown Title</string>
+    <string name="no_categories">None</string>
+</resources>

@@ -1,0 +1,33 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+    
+    <style name="BookTitleStyle">
+        <item name="android:textAppearance">@style/TitleFontStyle</item>
+    </style>
+
+    <style name="BookAuthorStyle">
+        <item name="android:textAppearance">@style/AuthorFontStyle</item>
+    </style>
+
+    <style name="TitleFontStyle" parent="@android:style/TextAppearance.Medium">
+        <item name="android:typeface">monospace</item>
+        <item name="android:textColor">@color/font_color</item>
+    </style>
+
+    <style name="AuthorFontStyle" parent="@android:style/TextAppearance.Small">
+        <item name="android:typeface">monospace</item>
+        <item name="android:textColor">@color/font_color</item>
+    </style>
+
+    <style name="RatingYearStyle">
+        <item name="android:textAppearance">@style/AuthorFontStyle</item>
+    </style>
+
+</resources>
