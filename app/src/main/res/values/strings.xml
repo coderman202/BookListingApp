@@ -27,6 +27,7 @@
         Error. No network connection or unable to connect to network.
     </string>
     <string name="null_pointer_exception">Error. No response code found.</string>
+    <string name="keyboard_hide_exception">Error hiding keyboard</string>
 
     <!--STRINGS FOR DEALING WITH NO RESULTS, SUCH AS NO AUTHOR OR NO TITLE-->
     <string name="unknown_author">Unknown Author</string>

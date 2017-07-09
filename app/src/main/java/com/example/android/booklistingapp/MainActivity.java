@@ -11,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -138,8 +139,21 @@ public class MainActivity extends AppCompatActivity implements android.app.Loade
                 bookAdapter.clear();
                 searchTerm = bookSearchEditText.getText().toString();
                 httpRequestUrl = prepareRequestUrl();
+                hideKeyboard();
                 initNetworkConnectivityCheck();
                 break;
+        }
+    }
+
+    /**
+     * Hide keyboard.
+     */
+    public void hideKeyboard() {
+        try {
+            InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        } catch (Exception e) {
+            Log.e(LOG_TAG, getString(R.string.keyboard_hide_exception), e);
         }
     }
 
