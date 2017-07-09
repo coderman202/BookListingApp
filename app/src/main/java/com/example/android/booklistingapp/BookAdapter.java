@@ -94,7 +94,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder>{
         viewHolder.ratingView.setText(book.getOverallRatings());
         viewHolder.yearView.setText(book.getYear());
 
-        // Set the content description for the thumbnail
+        // Set the content description for the thumbnail.
         String contentDescription = context.getString(R.string.book_cover, book.getTitle());
         viewHolder.thumbnailView.setContentDescription(contentDescription);
 
