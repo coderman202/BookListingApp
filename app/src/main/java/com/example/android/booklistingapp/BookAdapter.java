@@ -98,6 +98,13 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder>{
         String contentDescription = context.getString(R.string.book_cover, book.getTitle());
         viewHolder.thumbnailView.setContentDescription(contentDescription);
 
+        setThumbnail(book);
+
+
+        // TODO: Set the thumbnail image.
+    }
+
+    private void setThumbnail(Book book) {
         URL thumbnailURL;
         try {
             thumbnailURL = new URL(book.getThumbnailURL());
@@ -106,11 +113,9 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder>{
         } catch (MalformedURLException e) {
             Log.e(LOG_TAG, context.getString(R.string.malformed_url_exception), e);
         } catch (IOException e) {
+            e.printStackTrace();
             Log.e(LOG_TAG, context.getString(R.string.io_exception), e);
         }
-
-
-        // TODO: Set the thumbnail image.
     }
 
     @Override
