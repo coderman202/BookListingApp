@@ -90,7 +90,6 @@ public class MainActivity extends AppCompatActivity implements android.app.Loade
             }
         });
 
-
         // For the {@link RecyclerView}, set the {@link BookAdapter} and use a LinearLayoutManager
         // to set it to vertical.
         bookAdapter = new BookAdapter(this, bookList);
@@ -150,8 +149,6 @@ public class MainActivity extends AppCompatActivity implements android.app.Loade
 
     @Override
     public void onLoadFinished(Loader<List<Book>> loader, List<Book> bookList) {
-
-
         // filling bookAdapter
         if (bookList != null && !bookList.isEmpty()) {
             bookAdapter.reloadList(bookList);
