@@ -47,10 +47,18 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder>{
         this.context = context;
     }
 
+    /**
+     * Reload the bookList.
+     *
+     * @param bookList the bookList
+     */
     public void reloadList(List<Book> bookList){
         this.bookList.addAll(bookList);
     }
 
+    /**
+     * Clear the bookList.
+     */
     public void clear(){
         this.bookList.clear();
     }

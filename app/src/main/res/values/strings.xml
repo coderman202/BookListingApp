@@ -2,7 +2,7 @@
     <string name="app_name">Book Listing App</string>
 
     <!--Edit text hint-->
-    <string name="edit_text_hint">Enter your search term here:</string>
+    <string name="edit_text_hint">Search keyword</string>
 
     <!--PLACEHOLDER STRINGS-->
     <string name="placeholder_author">John Doe</string>

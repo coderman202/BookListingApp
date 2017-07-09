@@ -73,9 +73,47 @@ public class MainActivity extends AppCompatActivity implements android.app.Loade
 
         ButterKnife.bind(this);
 
-        Log.d("numOptions", numResultsOptions.toString());
-        // Create adapter and set the adapter to the spinner. Also set an OnItemSelectedListener to
-        // store the user choice.
+        initSpinner();
+
+        initBookAdapter();
+
+        initNetworkConnectivityCheck();
+    }
+
+    /**
+     * Check network connectivity
+     */
+    private void initNetworkConnectivityCheck() {
+        ConnectivityManager connectivityManager = (ConnectivityManager)
+                getSystemService(Context.CONNECTIVITY_SERVICE);
+        // Check network info and make sure there is one
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected()) {
+            // Get a reference to the LoaderManager, in order to interact with loaders.
+            LoaderManager loaderManager = getLoaderManager();
+            loaderManager.initLoader(BOOK_LOADER_ID, null, this);
+        } else {
+            // If there is no network info, tell the user
+            Toast.makeText(this, getString(R.string.no_network_connection), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    /**
+     * For the {@link RecyclerView}, set the {@link BookAdapter} and use a LinearLayoutManager
+     * to set it to vertical.
+     */
+    private void initBookAdapter() {
+        bookAdapter = new BookAdapter(this, bookList);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        bookListView.setLayoutManager(layoutManager);
+        bookListView.setAdapter(bookAdapter);
+    }
+
+    /**
+     * Create adapter and set the adapter to the spinner. Also set an OnItemSelectedListener to
+     * store the user choice.
+     */
+    private void initSpinner() {
         numResultsAdapter = new NumResultsAdapter(this, numResultsOptions);
         numResultsSpinner.setAdapter(numResultsAdapter);
 
@@ -89,31 +127,6 @@ public class MainActivity extends AppCompatActivity implements android.app.Loade
                 numResultsChoice = MAX_RESULTS_DEFAULT;
             }
         });
-
-        // For the {@link RecyclerView}, set the {@link BookAdapter} and use a LinearLayoutManager
-        // to set it to vertical.
-        bookAdapter = new BookAdapter(this, bookList);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        bookListView.setLayoutManager(layoutManager);
-        bookListView.setAdapter(bookAdapter);
-
-        // Get the search term
-        searchTerm = bookSearchEditText.getText().toString();
-
-        // Check network connectivity
-        ConnectivityManager connectivityManager = (ConnectivityManager)
-                getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        // Check network info and make sure there is one
-        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnected()) {
-            // Get a reference to the LoaderManager, in order to interact with loaders.
-            LoaderManager loaderManager = getLoaderManager();
-            loaderManager.initLoader(BOOK_LOADER_ID, null, this);
-        } else {
-            // If there is no network info, tell the user
-            Toast.makeText(this, getString(R.string.no_network_connection), Toast.LENGTH_LONG).show();
-        }
     }
 
     @Override

@@ -35,7 +35,7 @@ class NumResultsAdapter extends ArrayAdapter<Integer> {
      * @param optionsList the list of options
      */
     NumResultsAdapter(Context context, List<Integer> optionsList){
-        super(context, 0, optionsList);
+        super(context, R.layout.spinner_item, optionsList);
     }
 
     @NonNull
