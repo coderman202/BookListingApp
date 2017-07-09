@@ -35,4 +35,8 @@
     <string name="unknown_author">Unknown Author</string>
     <string name="unknown_title">Unknown Title</string>
     <string name="no_categories">None</string>
+
+    <!--PROGRESS DIALOG TITLE AND MESSAGE-->
+    <string name="progress_dialog_title">Progress</string>
+    <string name="progress_dialog_message">Loading Images....</string>
 </resources>

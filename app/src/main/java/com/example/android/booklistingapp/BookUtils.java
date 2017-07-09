@@ -236,19 +236,26 @@ public final class BookUtils {
                     // Get all the authors if there are any
                     if (volumeInfo.has(API_KEY_AUTHORS)) {
                         authorsArray = volumeInfo.getJSONArray(API_KEY_AUTHORS);
+                        Log.d(LOG_TAG, authorsArray.toString());
                         for (int j = 0; j < authorsArray.length(); j++) {
                             authorList.add(authorsArray.getString(j));
                         }
                     }
 
                     // Get the publisher
-                    if (volumeInfo.has(API_KEY_PUBLISHED_DATE)) {
+                    if (volumeInfo.has(API_KEY_PUBLISHER)) {
                         publisher = volumeInfo.getString(API_KEY_PUBLISHER);
                     }
 
-                    // Get published date and convert it to a Date object
+                    // Get published date and convert it to a Date object. If only a year or year
+                    // and month are listed then just add a standard date.
                     if (volumeInfo.has(API_KEY_PUBLISHED_DATE)) {
                         datePublished = volumeInfo.getString(API_KEY_PUBLISHED_DATE);
+                        if (datePublished.length() == 4) {
+                            datePublished += "-01-01";
+                        } else if (datePublished.length() == 7) {
+                            datePublished += "-01";
+                        }
                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
                         try{
                             publishDate = sdf.parse(datePublished);
@@ -294,10 +301,13 @@ public final class BookUtils {
                         }
                     }
 
-                    Book book = new Book(title, authorList, publisher, categoryList, description, publishDate, numPages, thumbnailUrl, rating, ratingsCount);
+                    Book book = new Book(title, authorList, publisher, categoryList, description,
+                            publishDate, numPages, thumbnailUrl, rating, ratingsCount);
 
                     // Add the new {@link Book} object to the list of books
                     bookList.add(book);
+                    authorList.clear();
+                    categoryList.clear();
                 }
             }
         } catch (JSONException e) {

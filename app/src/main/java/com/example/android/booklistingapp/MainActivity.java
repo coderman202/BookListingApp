@@ -57,9 +57,9 @@ public class MainActivity extends AppCompatActivity implements android.app.Loade
     // The list of integers initialised to populate the spinner.
     private List<Integer> numResultsOptions = new ArrayList<Integer>(){{
         add(10);
-        add(25);
-        add(50);
-        add(100);
+        add(20);
+        add(30);
+        add(40);
     }};
 
     private int numResultsChoice = MAX_RESULTS_DEFAULT;
@@ -141,6 +141,7 @@ public class MainActivity extends AppCompatActivity implements android.app.Loade
                 httpRequestUrl = prepareRequestUrl();
                 hideKeyboard();
                 initNetworkConnectivityCheck();
+                initBookAdapter();
                 break;
         }
     }
@@ -162,7 +163,6 @@ public class MainActivity extends AppCompatActivity implements android.app.Loade
      * @return search query
      */
     public String prepareRequestUrl() {
-
         String httpRequestUrl = BOOK_REQUEST_URL;
         httpRequestUrl += searchTerm;
         httpRequestUrl += "&maxResults=" + numResultsChoice;
@@ -190,5 +190,4 @@ public class MainActivity extends AppCompatActivity implements android.app.Loade
     public void onLoaderReset(Loader<List<Book>> loader) {
         bookAdapter.clear();
     }
-
 }

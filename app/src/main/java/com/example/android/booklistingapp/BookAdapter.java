@@ -1,19 +1,13 @@
 package com.example.android.booklistingapp;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
 
 import butterknife.BindView;
@@ -98,24 +92,11 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder>{
         String contentDescription = context.getString(R.string.book_cover, book.getTitle());
         viewHolder.thumbnailView.setContentDescription(contentDescription);
 
-        setThumbnail(book);
-
-
-        // TODO: Set the thumbnail image.
+        setThumbnail(book, viewHolder);
     }
 
-    private void setThumbnail(Book book) {
-        URL thumbnailURL;
-        try {
-            thumbnailURL = new URL(book.getThumbnailURL());
-            Bitmap bmp = BitmapFactory.decodeStream(thumbnailURL.openConnection().getInputStream());
-            //viewHolder.thumbnailView.setImageResource(bmp);
-        } catch (MalformedURLException e) {
-            Log.e(LOG_TAG, context.getString(R.string.malformed_url_exception), e);
-        } catch (IOException e) {
-            e.printStackTrace();
-            Log.e(LOG_TAG, context.getString(R.string.io_exception), e);
-        }
+    private void setThumbnail(Book book, ViewHolder viewHolder) {
+        new DownloadImage(viewHolder.thumbnailView, context).execute(book.getThumbnailURL());
     }
 
     @Override

@@ -3,19 +3,20 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="?android:attr/listPreferredItemHeight"
+    android:layout_height="wrap_content"
     android:layout_margin="@dimen/list_item_margins"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ImageView
         android:id="@+id/book_thumbnail"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
+        android:layout_width="93dp"
+        android:layout_height="58dp"
         tools:src="@drawable/placeholder"
         android:contentDescription="@string/book_cover"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/book_title"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintVertical_chainStyle="spread_inside"
         tools:layout_editor_absoluteX="0dp"/>
@@ -28,6 +29,8 @@
         tools:text="@string/placeholder_title"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toEndOf="@id/book_thumbnail"
+        app:layout_constraintEnd_toStartOf="@+id/book_rating"
+        app:layout_constraintBottom_toTopOf="@+id/book_author"
         tools:layout_editor_absoluteX="0dp"/>
 
     <TextView
@@ -38,6 +41,7 @@
         tools:text="@string/placeholder_author"
         app:layout_constraintStart_toEndOf="@id/book_thumbnail"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/book_year"
         tools:layout_editor_absoluteX="0dp"/>
 
     <TextView
