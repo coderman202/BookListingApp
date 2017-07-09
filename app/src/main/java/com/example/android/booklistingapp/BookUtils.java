@@ -60,7 +60,6 @@ public final class BookUtils {
 
     }
 
-
     /**
      * Make a URL request to return a {@link List<Book>}
      * @param   context             context

@@ -66,6 +66,8 @@ public class MainActivity extends AppCompatActivity implements android.app.Loade
 
     private List<Book> bookList = new ArrayList<>();
 
+    private String httpRequestUrl;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,11 +75,11 @@ public class MainActivity extends AppCompatActivity implements android.app.Loade
 
         ButterKnife.bind(this);
 
+        searchButton.setOnClickListener(this);
+
         initSpinner();
 
         initBookAdapter();
-
-        initNetworkConnectivityCheck();
     }
 
     /**
@@ -133,8 +135,10 @@ public class MainActivity extends AppCompatActivity implements android.app.Loade
     public void onClick(View view){
         switch (view.getId()){
             case R.id.search_button:
+                bookAdapter.clear();
                 searchTerm = bookSearchEditText.getText().toString();
-                prepareRequestUrl();
+                httpRequestUrl = prepareRequestUrl();
+                initNetworkConnectivityCheck();
                 break;
         }
     }
@@ -156,7 +160,7 @@ public class MainActivity extends AppCompatActivity implements android.app.Loade
     // loader instances
     @Override
     public Loader<List<Book>> onCreateLoader(int i, Bundle bundle) {
-        String httpRequestUrl = prepareRequestUrl();
+        httpRequestUrl = prepareRequestUrl();
         return new BookLoader(this, httpRequestUrl);
     }
 
