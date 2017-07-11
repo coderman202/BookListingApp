@@ -16,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -41,6 +42,10 @@ public class MainActivity extends AppCompatActivity implements android.app.Loade
     // And the button for completing the search.
     @BindView(R.id.book_list_search_box) EditText bookSearchEditText;
     @BindView(R.id.search_button) ImageView searchButton;
+
+    // A text view to show the most recently searched term to the user
+    @BindView(R.id.search_term)
+    TextView searchTermTextView;
 
     // The RecyclerView which displays the list of book items.
     @BindView(R.id.book_list) RecyclerView bookListView;
@@ -136,12 +141,7 @@ public class MainActivity extends AppCompatActivity implements android.app.Loade
     public void onClick(View view){
         switch (view.getId()){
             case R.id.search_button:
-                bookAdapter.clear();
-                searchTerm = bookSearchEditText.getText().toString();
-                httpRequestUrl = prepareRequestUrl();
-                hideKeyboard();
-                initNetworkConnectivityCheck();
-                initBookAdapter();
+                enterSearch();
                 break;
         }
     }
@@ -156,6 +156,20 @@ public class MainActivity extends AppCompatActivity implements android.app.Loade
         } catch (Exception e) {
             Log.e(LOG_TAG, getString(R.string.keyboard_hide_exception), e);
         }
+    }
+
+    /**
+     * A small method called when the search button is entered.
+     */
+    public void enterSearch() {
+        bookAdapter.clear();
+        searchTerm = bookSearchEditText.getText().toString();
+        searchTermTextView.setText(getString(R.string.search_term, searchTerm));
+        bookSearchEditText.setText("");
+        httpRequestUrl = prepareRequestUrl();
+        hideKeyboard();
+        initNetworkConnectivityCheck();
+        initBookAdapter();
     }
 
     /**

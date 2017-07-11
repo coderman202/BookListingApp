@@ -4,6 +4,9 @@
     <!--Edit text hint-->
     <string name="edit_text_hint">Search keyword</string>
 
+    <!--Search term text view-->
+    <string name="search_term">Your search: <xliff:g name="keyword">%s</xliff:g></string>
+
     <!--PLACEHOLDER STRINGS-->
     <string name="placeholder_author">John Doe</string>
     <string name="placeholder_title">The Best Book in the World</string>

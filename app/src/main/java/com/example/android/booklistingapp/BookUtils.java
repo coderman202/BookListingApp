@@ -226,6 +226,8 @@ public final class BookUtils {
 
                 for (int i = 0; i < bookArray.length(); i++) {
 
+                    authorList.clear();
+
                     currentBook = bookArray.getJSONObject(i);
                     volumeInfo = currentBook.getJSONObject(API_KEY_VOLUME_INFO);
                     
@@ -268,6 +270,7 @@ public final class BookUtils {
                     // Get all categories if there are any
                     if (volumeInfo.has(API_KEY_CATEGORIES)) {
                         categoriesArray = volumeInfo.getJSONArray(API_KEY_CATEGORIES);
+                        categoryList.clear();
                         for (int j = 0; j < categoriesArray.length(); j++) {
                             categoryList.add(categoriesArray.getString(j));
                         }
@@ -306,8 +309,6 @@ public final class BookUtils {
 
                     // Add the new {@link Book} object to the list of books
                     bookList.add(book);
-                    authorList.clear();
-                    categoryList.clear();
                 }
             }
         } catch (JSONException e) {
