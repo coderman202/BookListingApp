@@ -195,7 +195,7 @@ public final class BookUtils {
 
             // The JSON array which stores an array of one or more authors, if any.
             JSONArray authorsArray;
-            List<String> authorList = new ArrayList<>();
+            List<String> authorList;
 
             String title = "";
             String publisher = "";
@@ -226,7 +226,7 @@ public final class BookUtils {
 
                 for (int i = 0; i < bookArray.length(); i++) {
 
-                    authorList.clear();
+                    authorList = new ArrayList<>();
 
                     currentBook = bookArray.getJSONObject(i);
                     volumeInfo = currentBook.getJSONObject(API_KEY_VOLUME_INFO);
@@ -238,7 +238,6 @@ public final class BookUtils {
                     // Get all the authors if there are any
                     if (volumeInfo.has(API_KEY_AUTHORS)) {
                         authorsArray = volumeInfo.getJSONArray(API_KEY_AUTHORS);
-                        Log.d(LOG_TAG, authorsArray.toString());
                         for (int j = 0; j < authorsArray.length(); j++) {
                             authorList.add(authorsArray.getString(j));
                         }

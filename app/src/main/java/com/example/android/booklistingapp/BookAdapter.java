@@ -54,6 +54,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder>{
      * @param bookList the bookList
      */
     public void reloadList(List<Book> bookList){
+        clear();
         this.bookList.addAll(bookList);
     }
 
@@ -66,8 +67,8 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder>{
 
     /**
      * Setting the views for all the elements in the RecyclerView item.
-     * @param viewHolder
-     * @param position
+     * @param viewHolder    the view holder
+     * @param position      the current item position
      */
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position){

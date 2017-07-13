@@ -203,5 +203,6 @@ public class MainActivity extends AppCompatActivity implements android.app.Loade
     @Override
     public void onLoaderReset(Loader<List<Book>> loader) {
         bookAdapter.clear();
+        bookAdapter.notifyDataSetChanged();
     }
 }
