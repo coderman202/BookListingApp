@@ -28,6 +28,7 @@ import java.util.Locale;
  * book info.
  */
 
+@SuppressWarnings("FieldCanBeLocal")
 public final class BookUtils {
 
     private static final int RESPONSE_CODE = 200;
@@ -147,6 +148,7 @@ public final class BookUtils {
                 inputStream.close();
             }
         }
+        Log.e(LOG_TAG, jsonResponse);
         return jsonResponse;
     }
 

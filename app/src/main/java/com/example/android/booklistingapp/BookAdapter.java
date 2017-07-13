@@ -56,6 +56,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder>{
     public void reloadList(List<Book> bookList){
         clear();
         this.bookList.addAll(bookList);
+        notifyDataSetChanged();
     }
 
     /**

@@ -25,6 +25,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+@SuppressWarnings("FieldCanBeLocal")
 public class MainActivity extends AppCompatActivity implements android.app.LoaderManager.LoaderCallbacks<List<Book>>, View.OnClickListener{
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
@@ -169,6 +170,7 @@ public class MainActivity extends AppCompatActivity implements android.app.Loade
         httpRequestUrl = prepareRequestUrl();
         hideKeyboard();
         initNetworkConnectivityCheck();
+        getLoaderManager().restartLoader(BOOK_LOADER_ID, null, this);
         initBookAdapter();
     }
 
@@ -177,18 +179,17 @@ public class MainActivity extends AppCompatActivity implements android.app.Loade
      * @return search query
      */
     public String prepareRequestUrl() {
-        String httpRequestUrl = BOOK_REQUEST_URL;
-        httpRequestUrl += searchTerm;
-        httpRequestUrl += "&maxResults=" + numResultsChoice;
-        Log.d(LOG_TAG, httpRequestUrl);
+        String requestUrl = BOOK_REQUEST_URL;
+        requestUrl += searchTerm;
+        requestUrl += "&maxResults=" + numResultsChoice;
+        Log.e(LOG_TAG, requestUrl);
 
-        return(httpRequestUrl);
+        return (requestUrl);
     }
 
     // loader instances
     @Override
     public Loader<List<Book>> onCreateLoader(int i, Bundle bundle) {
-        httpRequestUrl = prepareRequestUrl();
         return new BookLoader(this, httpRequestUrl);
     }
 
