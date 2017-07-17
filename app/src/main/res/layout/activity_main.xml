@@ -21,6 +21,8 @@
             android:layout_weight="2.6"
             android:inputType="text"
             android:maxLines="1"
+            android:clickable="true"
+            android:focusableInTouchMode="true"
             android:drawableEnd="@drawable/search"
             android:labelFor="@+id/book_list"
             android:hint="@string/edit_text_hint"/>
@@ -54,4 +56,20 @@
         android:layout_height="match_parent">
 
     </android.support.v7.widget.RecyclerView>
+
+
+    <TextView
+        style="@style/BookAuthorStyle"
+        android:textColor="@color/grey_font_color"
+        android:id="@+id/no_results"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/no_results"
+        android:gravity="center"
+        android:drawableTop="@drawable/no_results"
+        android:visibility="gone"
+        android:padding="@dimen/list_item_view_padding"
+        android:layout_gravity="center"/>
+
+
 </LinearLayout>

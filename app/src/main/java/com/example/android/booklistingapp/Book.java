@@ -81,30 +81,12 @@ public class Book {
     }
 
     /**
-     * Sets rating.
-     *
-     * @param rating the rating
-     */
-    public void setRating(float rating) {
-        this.rating = rating;
-    }
-
-    /**
      * Gets ratings count.
      *
      * @return the ratings count
      */
     public int getRatingsCount() {
         return ratingsCount;
-    }
-
-    /**
-     * Sets ratings count.
-     *
-     * @param ratingsCount the ratings count
-     */
-    public void setRatingsCount(int ratingsCount) {
-        this.ratingsCount = ratingsCount;
     }
 
     /**
@@ -115,16 +97,6 @@ public class Book {
     public String getTitle() {
         return title;
     }
-
-    /**
-     * Sets title.
-     *
-     * @param title the title
-     */
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     /**
      * Gets authors.
      *
@@ -132,15 +104,6 @@ public class Book {
      */
     public List<String> getAuthors() {
         return authors;
-    }
-
-    /**
-     * Sets authors.
-     *
-     * @param authors the authors
-     */
-    public void setAuthors(List<String> authors) {
-        this.authors = authors;
     }
 
     /**
@@ -153,30 +116,12 @@ public class Book {
     }
 
     /**
-     * Sets publisher.
-     *
-     * @param publisher the publisher
-     */
-    public void setPublisher(String publisher) {
-        this.publisher = publisher;
-    }
-
-    /**
      * Gets categories.
      *
      * @return the categories
      */
     public List<String> getCategories() {
         return categories;
-    }
-
-    /**
-     * Sets categories.
-     *
-     * @param categories the categories
-     */
-    public void setCategories(List<String> categories) {
-        this.categories = categories;
     }
 
     /**
@@ -189,30 +134,12 @@ public class Book {
     }
 
     /**
-     * Sets description.
-     *
-     * @param description the description
-     */
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    /**
      * Gets date published.
      *
      * @return the date published
      */
     public Date getDatePublished() {
         return datePublished;
-    }
-
-    /**
-     * Sets date published.
-     *
-     * @param datePublished the date published
-     */
-    public void setDatePublished(Date datePublished) {
-        this.datePublished = datePublished;
     }
 
     /**
@@ -224,15 +151,6 @@ public class Book {
         return numPages;
     }
 
-    /**
-     * Sets num pages.
-     *
-     * @param numPages the num pages
-     */
-    public void setNumPages(int numPages) {
-        this.numPages = numPages;
-    }
-
 
     /**
      * Gets thumbnail url.
@@ -241,15 +159,6 @@ public class Book {
      */
     public String getThumbnailURL() {
         return thumbnailURL;
-    }
-
-    /**
-     * Sets thumbnail.
-     *
-     * @param thumbnailURL the thumbnail url
-     */
-    public void setThumbnail(String thumbnailURL) {
-        this.thumbnailURL = thumbnailURL;
     }
 
     /**

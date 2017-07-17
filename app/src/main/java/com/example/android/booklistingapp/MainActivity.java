@@ -6,6 +6,7 @@ import android.content.Loader;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -39,6 +40,9 @@ public class MainActivity extends AppCompatActivity implements android.app.Loade
     // select how many results they want to display.
     private static final int MAX_RESULTS_DEFAULT = 20;
 
+    // Key for referencing the request url in onSaveInstanceState.
+    public static final String FULL_REQUEST_URL_KEY = "Request Url";
+
     // The edit text for the user to enter a search term and find any books matching that term.
     // And the button for completing the search.
     @BindView(R.id.book_list_search_box) EditText bookSearchEditText;
@@ -48,11 +52,19 @@ public class MainActivity extends AppCompatActivity implements android.app.Loade
     @BindView(R.id.search_term)
     TextView searchTermTextView;
 
-    // The RecyclerView which displays the list of book items.
+    // The RecyclerView which displays the list of book items. And its Layout Manager.
     @BindView(R.id.book_list) RecyclerView bookListView;
+    LinearLayoutManager layoutManager;
+
+    // Key for saving the scroll position of the RecyclerView.
+    public static final String BUNDLE_RECYCLER_LAYOUT_KEY = "RecyclerView Layout";
 
     // The Spinner which displays the options for the number of search results
     @BindView(R.id.num_results) Spinner numResultsSpinner;
+
+    // TextView to be displayed if there are no results to show.
+    @BindView(R.id.no_results)
+    TextView noResultsView;
 
     // The custom adapter for displaying list of book items.
     private BookAdapter bookAdapter;
@@ -73,6 +85,7 @@ public class MainActivity extends AppCompatActivity implements android.app.Loade
 
     private List<Book> bookList = new ArrayList<>();
 
+    // The request url that will be built from the BOOK_REQUEST_URL and the user input.
     private String httpRequestUrl;
 
     @Override
@@ -82,11 +95,58 @@ public class MainActivity extends AppCompatActivity implements android.app.Loade
 
         ButterKnife.bind(this);
 
+        bookSearchEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    hideKeyboard();
+                }
+            }
+        });
         searchButton.setOnClickListener(this);
+
+        layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
 
         initSpinner();
 
+        if (savedInstanceState != null) {
+            httpRequestUrl = savedInstanceState.getString(FULL_REQUEST_URL_KEY);
+            initNetworkConnectivityCheck();
+            Parcelable savedRecyclerLayoutState = savedInstanceState.getParcelable(BUNDLE_RECYCLER_LAYOUT_KEY);
+            layoutManager.onRestoreInstanceState(savedRecyclerLayoutState);
+        }
+
         initBookAdapter();
+    }
+
+
+    /**
+     * A method to check if the adapter is empty and tell the user to search again.
+     */
+    private void checkForEmptyList() {
+        if (bookAdapter.getItemCount() == 0) {
+            bookListView.setVisibility(View.GONE);
+            noResultsView.setVisibility(View.VISIBLE);
+        } else {
+            bookListView.setVisibility(View.VISIBLE);
+            noResultsView.setVisibility(View.GONE);
+        }
+    }
+
+    // The following will save the request URL to allow the reloading of the recycler view.
+    // Also saving the current position using the layout manager to ensure the list is reloaded at
+    // the right point. Using onRestoreInstance state to restore the position.
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putString(FULL_REQUEST_URL_KEY, httpRequestUrl);
+        outState.putParcelable(BUNDLE_RECYCLER_LAYOUT_KEY, layoutManager.onSaveInstanceState());
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle inState) {
+        httpRequestUrl = inState.getString(FULL_REQUEST_URL_KEY);
+        Parcelable savedRecyclerLayoutState = inState.getParcelable(BUNDLE_RECYCLER_LAYOUT_KEY);
+        layoutManager.onRestoreInstanceState(savedRecyclerLayoutState);
     }
 
     /**
@@ -113,7 +173,6 @@ public class MainActivity extends AppCompatActivity implements android.app.Loade
      */
     private void initBookAdapter() {
         bookAdapter = new BookAdapter(this, bookList);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         bookListView.setLayoutManager(layoutManager);
         bookListView.setAdapter(bookAdapter);
     }
@@ -172,6 +231,7 @@ public class MainActivity extends AppCompatActivity implements android.app.Loade
         initNetworkConnectivityCheck();
         getLoaderManager().restartLoader(BOOK_LOADER_ID, null, this);
         initBookAdapter();
+        //checkForEmptyList();
     }
 
     /**

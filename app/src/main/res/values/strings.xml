@@ -42,4 +42,5 @@
     <!--PROGRESS DIALOG TITLE AND MESSAGE-->
     <string name="progress_dialog_title">Progress</string>
     <string name="progress_dialog_message">Loading Images....</string>
+    <string name="no_results">No books found with search result. Please try another search.</string>
 </resources>
