@@ -16,6 +16,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -70,6 +71,10 @@ public class MainActivity extends FragmentActivity implements android.support.v4
     @BindView(R.id.no_network)
     TextView noNetworkView;
 
+    // ProgressBar for displaying the loading progress.
+    @BindView(R.id.progress)
+    ProgressBar progressBar;
+
     // The custom adapter for displaying list of book items.
     private BookAdapter bookAdapter;
 
@@ -117,17 +122,16 @@ public class MainActivity extends FragmentActivity implements android.support.v4
         // Initialise the LayoutManager for handling th RecyclerView.
         layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
 
-        initNetworkConnectivityCheck(false);
-
-
         initSpinner();
 
         if (savedInstanceState != null) {
             httpRequestUrl = savedInstanceState.getString(FULL_REQUEST_URL_KEY);
-            initNetworkConnectivityCheck(true);
             Parcelable savedRecyclerLayoutState = savedInstanceState.getParcelable(BUNDLE_RECYCLER_LAYOUT_KEY);
             layoutManager.onRestoreInstanceState(savedRecyclerLayoutState);
         }
+
+        initNetworkConnectivityCheck();
+
         initBookAdapter();
     }
 
@@ -164,7 +168,7 @@ public class MainActivity extends FragmentActivity implements android.support.v4
     /**
      * Check network connectivity
      */
-    private void initNetworkConnectivityCheck(boolean isLoaded) {
+    private void initNetworkConnectivityCheck() {
         ConnectivityManager connectivityManager = (ConnectivityManager)
                 getSystemService(Context.CONNECTIVITY_SERVICE);
         // Check network info and make sure there is one
@@ -172,13 +176,12 @@ public class MainActivity extends FragmentActivity implements android.support.v4
         if (networkInfo != null && networkInfo.isConnected()) {
             // If there is, make sure the noNetworkView is not visible
             noNetworkView.setVisibility(View.GONE);
-            if (!isLoaded) {
-                loaderManager.initLoader(BOOK_LOADER_ID, null, this);
-            } else {
-                loaderManager.restartLoader(BOOK_LOADER_ID, null, this);
-            }
+            bookListView.setVisibility(View.VISIBLE);
+            loaderManager.restartLoader(BOOK_LOADER_ID, null, this);
+
         } else {
             // If there is no network connection, tell the user
+            bookListView.setVisibility(View.GONE);
             noNetworkView.setVisibility(View.VISIBLE);
         }
     }
@@ -238,13 +241,17 @@ public class MainActivity extends FragmentActivity implements android.support.v4
      * A small method called when the search button is entered.
      */
     public void enterSearch() {
+        bookAdapter.clear();
+        noResultsView.setVisibility(View.GONE);
+        noResultsView.setText(R.string.no_results);
+        noResultsView.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.no_results, 0, 0);
         searchTerm = bookSearchEditText.getText().toString();
         searchTermTextView.setText(getString(R.string.search_term, searchTerm));
         bookSearchEditText.setText("");
         prepareRequestUrl();
         hideKeyboard();
         initBookAdapter();
-        initNetworkConnectivityCheck(true);
+        initNetworkConnectivityCheck();
     }
 
     /**
@@ -261,11 +268,15 @@ public class MainActivity extends FragmentActivity implements android.support.v4
     // loader instances
     @Override
     public Loader<List<Book>> onCreateLoader(int i, Bundle bundle) {
+        bookListView.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
         return new BookLoader(this, httpRequestUrl);
     }
 
     @Override
     public void onLoadFinished(Loader<List<Book>> loader, List<Book> bookList) {
+        bookListView.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.GONE);
         bookAdapter.clear();
         if (bookList != null && !bookList.isEmpty()) {
             bookAdapter.reloadList(bookList);
