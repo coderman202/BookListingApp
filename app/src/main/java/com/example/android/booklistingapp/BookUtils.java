@@ -57,17 +57,18 @@ public final class BookUtils {
     private static final String API_KEY_IMAGE_LINKS = "imageLinks";
     private static final String API_KEY_THUMBNAIL = "smallThumbnail";
 
-    private BookUtils(){
+    private BookUtils() {
 
     }
 
     /**
      * Make a URL request to return a {@link List<Book>}
-     * @param   context             context
-     * @param   requestUrlString    A request url in String form
-     * @return                      A list of books.
+     *
+     * @param context          context
+     * @param requestUrlString A request url in String form
+     * @return A list of books.
      */
-    public static List<Book> getBookData(Context context, String requestUrlString){
+    public static List<Book> getBookData(Context context, String requestUrlString) {
         BookUtils.context = context;
         requestUrl = createUrl(requestUrlString);
 
@@ -107,7 +108,8 @@ public final class BookUtils {
 
     /**
      * Make A HTTP request to the given URL and return a JSON response in String form.
-     * @param url       the url.
+     *
+     * @param url the url.
      * @return String   the JSON response in String form
      */
     private static String makeHttpRequest(URL url) throws IOException {
@@ -138,9 +140,9 @@ public final class BookUtils {
             }
         } catch (IOException e) {
             Log.e(LOG_TAG, context.getString(R.string.json_exception), e);
-        } catch(NullPointerException e){
+        } catch (NullPointerException e) {
             Log.e(LOG_TAG, context.getString(R.string.null_pointer_exception), e);
-        } finally{
+        } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
             }
@@ -232,10 +234,10 @@ public final class BookUtils {
 
                     currentBook = bookArray.getJSONObject(i);
                     volumeInfo = currentBook.getJSONObject(API_KEY_VOLUME_INFO);
-                    
-                    if(volumeInfo.has(API_KEY_TITLE)){
+
+                    if (volumeInfo.has(API_KEY_TITLE)) {
                         title = volumeInfo.getString(API_KEY_TITLE);
-                    }                    
+                    }
 
                     // Get all the authors if there are any
                     if (volumeInfo.has(API_KEY_AUTHORS)) {
@@ -261,10 +263,9 @@ public final class BookUtils {
                             datePublished += "-01";
                         }
                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
-                        try{
+                        try {
                             publishDate = sdf.parse(datePublished);
-                        }
-                        catch (ParseException e){
+                        } catch (ParseException e) {
                             Log.e(LOG_TAG, context.getString(R.string.parse_exception), e);
                         }
                     }

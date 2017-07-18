@@ -21,44 +21,44 @@ import butterknife.ButterKnife;
 
 class NumResultsAdapter extends ArrayAdapter<Integer> {
 
-    static class ViewHolder{
-        @BindView(R.id.spinner_item_view) TextView spinnerItem;
+    static class ViewHolder {
+        @BindView(R.id.spinner_item_view)
+        TextView spinnerItem;
 
-        ViewHolder(View view){
+        ViewHolder(View view) {
             ButterKnife.bind(this, view);
         }
     }
+
     /**
      * Instantiates a new {@link NumResultsAdapter}.
      *
      * @param context     the context
      * @param optionsList the list of options
      */
-    NumResultsAdapter(Context context, List<Integer> optionsList){
+    NumResultsAdapter(Context context, List<Integer> optionsList) {
         super(context, R.layout.spinner_item, optionsList);
     }
 
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent){
+    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         ViewHolder holder;
 
         View spinnerItemView = convertView;
 
-        if(spinnerItemView == null){
+        if (spinnerItemView == null) {
             spinnerItemView = LayoutInflater.from(getContext()).inflate(R.layout.spinner_item, parent, false);
             holder = new ViewHolder(spinnerItemView);
             spinnerItemView.setTag(holder);
-        }
-        else{
+        } else {
             holder = (ViewHolder) spinnerItemView.getTag();
         }
 
         final int currentOption;
-        if(getItem(position) == null){
+        if (getItem(position) == null) {
             currentOption = 10;
-        }
-        else{
+        } else {
             currentOption = getItem(position);
         }
 

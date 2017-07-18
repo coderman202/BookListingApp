@@ -46,22 +46,26 @@ public class MainActivity extends FragmentActivity implements android.support.v4
 
     // The edit text for the user to enter a search term and find any books matching that term.
     // And the button for completing the search.
-    @BindView(R.id.book_list_search_box) EditText bookSearchEditText;
-    @BindView(R.id.search_button) ImageView searchButton;
+    @BindView(R.id.book_list_search_box)
+    EditText bookSearchEditText;
+    @BindView(R.id.search_button)
+    ImageView searchButton;
 
     // A text view to show the most recently searched term to the user
     @BindView(R.id.search_term)
     TextView searchTermTextView;
 
     // The RecyclerView which displays the list of book items. And its Layout Manager.
-    @BindView(R.id.book_list) RecyclerView bookListView;
+    @BindView(R.id.book_list)
+    RecyclerView bookListView;
     LinearLayoutManager layoutManager;
 
     // Key for saving the scroll position of the RecyclerView.
     public static final String BUNDLE_RECYCLER_LAYOUT_KEY = "RecyclerView Layout";
 
     // The Spinner which displays the options for the number of search results
-    @BindView(R.id.num_results) Spinner numResultsSpinner;
+    @BindView(R.id.num_results)
+    Spinner numResultsSpinner;
 
     // TextView to be displayed if there are no results to show.
     @BindView(R.id.no_results)
@@ -82,7 +86,7 @@ public class MainActivity extends FragmentActivity implements android.support.v4
     private NumResultsAdapter numResultsAdapter;
 
     // The list of integers initialised to populate the spinner.
-    private List<Integer> numResultsOptions = new ArrayList<Integer>(){{
+    private List<Integer> numResultsOptions = new ArrayList<Integer>() {{
         add(10);
         add(20);
         add(30);
@@ -119,7 +123,7 @@ public class MainActivity extends FragmentActivity implements android.support.v4
         // Initialise a LoaderManager to handle any loaders.
         loaderManager = getSupportLoaderManager();
 
-        // Initialise the LayoutManager for handling th RecyclerView.
+        // Initialise the LayoutManager for handling the RecyclerView.
         layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
 
         initSpinner();
@@ -207,8 +211,9 @@ public class MainActivity extends FragmentActivity implements android.support.v4
         numResultsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                numResultsChoice = (int)parent.getSelectedItem();
+                numResultsChoice = (int) parent.getSelectedItem();
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 numResultsChoice = MAX_RESULTS_DEFAULT;
@@ -217,8 +222,8 @@ public class MainActivity extends FragmentActivity implements android.support.v4
     }
 
     @Override
-    public void onClick(View view){
-        switch (view.getId()){
+    public void onClick(View view) {
+        switch (view.getId()) {
             case R.id.search_button:
                 enterSearch();
                 break;

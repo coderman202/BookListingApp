@@ -97,6 +97,7 @@ public class Book {
     public String getTitle() {
         return title;
     }
+
     /**
      * Gets authors.
      *
@@ -166,7 +167,7 @@ public class Book {
      *
      * @return the string
      */
-    public String getYear(){
+    public String getYear() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy", Locale.ENGLISH);
         String year = "Unknown Year";
         try {
@@ -182,8 +183,8 @@ public class Book {
      *
      * @return the string
      */
-    public String getAuthorsString(){
-        return  TextUtils.join(", ", this.authors);
+    public String getAuthorsString() {
+        return TextUtils.join(", ", this.authors);
     }
 
     /**
@@ -191,7 +192,7 @@ public class Book {
      *
      * @return the string
      */
-    public String getCategoriesString(){
+    public String getCategoriesString() {
         return TextUtils.join(", ", this.categories);
     }
 
@@ -200,7 +201,7 @@ public class Book {
      *
      * @return the string
      */
-    public String getOverallRatings(){
+    public String getOverallRatings() {
         return this.rating + "(" + this.ratingsCount + ")";
     }
 }

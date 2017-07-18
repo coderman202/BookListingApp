@@ -17,21 +17,26 @@ import butterknife.ButterKnife;
  * Created by Reggie on 08/07/2017. A custom adapter for displaying book information in a
  * RecyclerView
  */
-public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder>{
+public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
 
     private static final String LOG_TAG = BookAdapter.class.getSimpleName();
     private List<Book> bookList;
     private Context context;
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.book_author) TextView authorView;
-        @BindView(R.id.book_title) TextView titleView;
-        @BindView(R.id.book_rating) TextView ratingView;
-        @BindView(R.id.book_year) TextView yearView;
-        @BindView(R.id.book_thumbnail) ImageView thumbnailView;
+        @BindView(R.id.book_author)
+        TextView authorView;
+        @BindView(R.id.book_title)
+        TextView titleView;
+        @BindView(R.id.book_rating)
+        TextView ratingView;
+        @BindView(R.id.book_year)
+        TextView yearView;
+        @BindView(R.id.book_thumbnail)
+        ImageView thumbnailView;
 
-        public ViewHolder(View view){
+        public ViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
         }
@@ -43,7 +48,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder>{
      * @param context  the context
      * @param bookList the book list
      */
-    BookAdapter(Context context, List<Book> bookList){
+    BookAdapter(Context context, List<Book> bookList) {
         this.bookList = bookList;
         this.context = context;
     }
@@ -53,7 +58,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder>{
      *
      * @param bookList the bookList
      */
-    public void reloadList(List<Book> bookList){
+    public void reloadList(List<Book> bookList) {
         clear();
         this.bookList.addAll(bookList);
         notifyDataSetChanged();
@@ -62,26 +67,27 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder>{
     /**
      * Clear the bookList.
      */
-    public void clear(){
+    public void clear() {
         this.bookList.clear();
     }
 
     /**
      * Setting the views for all the elements in the RecyclerView item.
-     * @param viewHolder    the view holder
-     * @param position      the current item position
+     *
+     * @param viewHolder the view holder
+     * @param position   the current item position
      */
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, int position){
+    public void onBindViewHolder(ViewHolder viewHolder, int position) {
         Book book = bookList.get(position);
 
         String author = book.getAuthorsString();
-        if(author.isEmpty()){
+        if (author.isEmpty()) {
             author = context.getString(R.string.unknown_author);
         }
 
         String title = book.getTitle();
-        if(title.isEmpty()){
+        if (title.isEmpty()) {
             title = context.getString(R.string.unknown_title);
         }
 
@@ -102,12 +108,12 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder>{
     }
 
     @Override
-    public int getItemCount(){
+    public int getItemCount() {
         return bookList.size();
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.book_list_item, parent, false);
         return new ViewHolder(view);
     }
