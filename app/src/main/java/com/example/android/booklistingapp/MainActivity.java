@@ -1,13 +1,13 @@
 package com.example.android.booklistingapp;
 
-import android.app.LoaderManager;
 import android.content.Context;
-import android.content.Loader;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -18,7 +18,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,8 +25,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+
 @SuppressWarnings("FieldCanBeLocal")
-public class MainActivity extends AppCompatActivity implements android.app.LoaderManager.LoaderCallbacks<List<Book>>, View.OnClickListener{
+public class MainActivity extends FragmentActivity implements android.support.v4.app.LoaderManager.LoaderCallbacks<List<Book>>, View.OnClickListener {
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
 
@@ -66,6 +66,10 @@ public class MainActivity extends AppCompatActivity implements android.app.Loade
     @BindView(R.id.no_results)
     TextView noResultsView;
 
+    // TextView to be displayed when there is no internet connection
+    @BindView(R.id.no_network)
+    TextView noNetworkView;
+
     // The custom adapter for displaying list of book items.
     private BookAdapter bookAdapter;
 
@@ -84,6 +88,8 @@ public class MainActivity extends AppCompatActivity implements android.app.Loade
     private String searchTerm;
 
     private List<Book> bookList = new ArrayList<>();
+
+    LoaderManager loaderManager;
 
     // The request url that will be built from the BOOK_REQUEST_URL and the user input.
     private String httpRequestUrl;
@@ -105,17 +111,23 @@ public class MainActivity extends AppCompatActivity implements android.app.Loade
         });
         searchButton.setOnClickListener(this);
 
+        // Initialise a LoaderManager to handle any loaders.
+        loaderManager = getSupportLoaderManager();
+
+        // Initialise the LayoutManager for handling th RecyclerView.
         layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+
+        initNetworkConnectivityCheck(false);
+
 
         initSpinner();
 
         if (savedInstanceState != null) {
             httpRequestUrl = savedInstanceState.getString(FULL_REQUEST_URL_KEY);
-            initNetworkConnectivityCheck();
+            initNetworkConnectivityCheck(true);
             Parcelable savedRecyclerLayoutState = savedInstanceState.getParcelable(BUNDLE_RECYCLER_LAYOUT_KEY);
             layoutManager.onRestoreInstanceState(savedRecyclerLayoutState);
         }
-
         initBookAdapter();
     }
 
@@ -152,18 +164,22 @@ public class MainActivity extends AppCompatActivity implements android.app.Loade
     /**
      * Check network connectivity
      */
-    private void initNetworkConnectivityCheck() {
+    private void initNetworkConnectivityCheck(boolean isLoaded) {
         ConnectivityManager connectivityManager = (ConnectivityManager)
                 getSystemService(Context.CONNECTIVITY_SERVICE);
         // Check network info and make sure there is one
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected()) {
-            // Get a reference to the LoaderManager, in order to interact with loaders.
-            LoaderManager loaderManager = getLoaderManager();
-            loaderManager.initLoader(BOOK_LOADER_ID, null, this);
+            // If there is, make sure the noNetworkView is not visible
+            noNetworkView.setVisibility(View.GONE);
+            if (!isLoaded) {
+                loaderManager.initLoader(BOOK_LOADER_ID, null, this);
+            } else {
+                loaderManager.restartLoader(BOOK_LOADER_ID, null, this);
+            }
         } else {
-            // If there is no network info, tell the user
-            Toast.makeText(this, getString(R.string.no_network_connection), Toast.LENGTH_LONG).show();
+            // If there is no network connection, tell the user
+            noNetworkView.setVisibility(View.VISIBLE);
         }
     }
 
@@ -222,29 +238,24 @@ public class MainActivity extends AppCompatActivity implements android.app.Loade
      * A small method called when the search button is entered.
      */
     public void enterSearch() {
-        bookAdapter.clear();
         searchTerm = bookSearchEditText.getText().toString();
         searchTermTextView.setText(getString(R.string.search_term, searchTerm));
         bookSearchEditText.setText("");
-        httpRequestUrl = prepareRequestUrl();
+        prepareRequestUrl();
         hideKeyboard();
-        initNetworkConnectivityCheck();
-        getLoaderManager().restartLoader(BOOK_LOADER_ID, null, this);
         initBookAdapter();
-        //checkForEmptyList();
+        initNetworkConnectivityCheck(true);
     }
 
     /**
      * This method prepares the request used to fetch data from Google API
-     * @return search query
      */
-    public String prepareRequestUrl() {
+    public void prepareRequestUrl() {
         String requestUrl = BOOK_REQUEST_URL;
         requestUrl += searchTerm;
         requestUrl += "&maxResults=" + numResultsChoice;
         Log.e(LOG_TAG, requestUrl);
-
-        return (requestUrl);
+        httpRequestUrl = requestUrl;
     }
 
     // loader instances
@@ -255,10 +266,11 @@ public class MainActivity extends AppCompatActivity implements android.app.Loade
 
     @Override
     public void onLoadFinished(Loader<List<Book>> loader, List<Book> bookList) {
-        // filling bookAdapter
+        bookAdapter.clear();
         if (bookList != null && !bookList.isEmpty()) {
             bookAdapter.reloadList(bookList);
         }
+        checkForEmptyList();
     }
 
     @Override

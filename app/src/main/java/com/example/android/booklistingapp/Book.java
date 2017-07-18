@@ -168,7 +168,13 @@ public class Book {
      */
     public String getYear(){
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy", Locale.ENGLISH);
-        return sdf.format(this.datePublished);
+        String year = "Unknown Year";
+        try {
+            year = sdf.format(this.datePublished);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+        return year;
     }
 
     /**

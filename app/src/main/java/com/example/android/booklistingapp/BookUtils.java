@@ -254,6 +254,7 @@ public final class BookUtils {
                     // and month are listed then just add a standard date.
                     if (volumeInfo.has(API_KEY_PUBLISHED_DATE)) {
                         datePublished = volumeInfo.getString(API_KEY_PUBLISHED_DATE);
+                        datePublished = datePublished.replace("*", "");
                         if (datePublished.length() == 4) {
                             datePublished += "-01-01";
                         } else if (datePublished.length() == 7) {

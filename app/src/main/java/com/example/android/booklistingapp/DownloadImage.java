@@ -28,11 +28,11 @@ class DownloadImage extends AsyncTask<String, Void, Bitmap> {
     protected void onPreExecute() {
         super.onPreExecute();
         // Create a progressdialog
-        progressDialog = new ProgressDialog(context);
+        /*progressDialog = new ProgressDialog(context);
         progressDialog.setTitle(context.getString(R.string.progress_dialog_title));
         progressDialog.setMessage(context.getString(R.string.progress_dialog_message));
         progressDialog.setIndeterminate(false);
-        progressDialog.show();
+        progressDialog.show();*/
     }
 
     @Override
@@ -57,6 +57,6 @@ class DownloadImage extends AsyncTask<String, Void, Bitmap> {
         // Set the bitmap into ImageView
         imageView.setImageBitmap(result);
         // Close progressdialog
-        progressDialog.dismiss();
+        //progressDialog.dismiss();
     }
 }
